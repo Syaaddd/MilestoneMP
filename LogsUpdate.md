@@ -2,6 +2,15 @@
 
 ---
 
+## v1.0.2
+
+### Fixes
+- Fixed color codes still not working (applied color in ConfigManager getters)
+- Fixed GUI items can still be moved/dragged (added InventoryDragEvent)
+- Improved GUI title matching for better event handling
+
+---
+
 ## v1.0.1
 
 ### Features
@@ -10,8 +19,9 @@
 - Added `/milestone help` command
 
 ### Fixes
-- Fixed color codes not showing in chat messages
-- Fixed items in GUI being movable (now locked)
+- Fixed color codes not showing in chat messages (applied in ConfigManager getters)
+- Fixed items in GUI being movable (added InventoryDragEvent handler)
+- Fixed items in GUI being draggable (added proper event cancellation)
 - Fixed lambda variable errors (final variables)
 - Fixed SQLite Collection type error
 - Fixed `selectedChoiceId` not effectively final

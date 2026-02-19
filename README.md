@@ -29,8 +29,9 @@ A unique Minecraft server plugin that brings a progression tree system where pla
 |---------|-------------|
 | `/milestone` | Open milestone GUI |
 | `/milestone open` | Open milestone GUI |
-| `/milestone claim <id>` | Claim specific milestone |
 | `/milestone check` | Check current progress |
+| `/milestone claim <id>` | Claim specific milestone |
+| `/milestone help` | Show help menu |
 | `/milestone reload` | Reload configuration (admin) |
 
 ---
@@ -93,4 +94,4 @@ milestones:
 ---
 
 **License:** MIT  
-**Version:** 1.0.1
+**Version:** 1.0.2

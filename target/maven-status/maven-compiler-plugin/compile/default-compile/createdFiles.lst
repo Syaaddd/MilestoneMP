@@ -1,4 +1,5 @@
 com\github\Syaaddd\milestoneMP\milestone\Milestone.class
+com\github\Syaaddd\milestoneMP\command\MilestoneTabCompleter.class
 com\github\Syaaddd\milestoneMP\milestone\MilestoneType.class
 com\github\Syaaddd\milestoneMP\data\DatabaseManager.class
 com\github\Syaaddd\milestoneMP\milestone\MilestoneChoice.class

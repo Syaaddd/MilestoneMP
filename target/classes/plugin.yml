@@ -1,5 +1,5 @@
 name: MilestoneMP
-version: '1.0.0'
+version: '1.0.1'
 main: com.github.Syaaddd.milestoneMP.MilestoneMP
 api-version: '1.21'
 author: Syaaddd
@@ -8,7 +8,7 @@ description: Unlock Your Path, Not Just Rewards - A unique milestone plugin with
 commands:
   milestone:
     description: Main milestone command
-    usage: /<command> [open|claim|check|reload]
+    usage: /<command> [open|claim|check|help]
     aliases: [ms, mp]
 
 permissions:

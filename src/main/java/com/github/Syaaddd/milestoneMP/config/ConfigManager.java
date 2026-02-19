@@ -4,10 +4,12 @@ import com.github.Syaaddd.milestoneMP.MilestoneMP;
 import com.github.Syaaddd.milestoneMP.milestone.Milestone;
 import com.github.Syaaddd.milestoneMP.milestone.MilestoneChoice;
 import com.github.Syaaddd.milestoneMP.milestone.MilestoneType;
+import com.github.Syaaddd.milestoneMP.util.MessageUtil;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.*;
+import java.util.Arrays;
 import java.util.Arrays;
 
 public class ConfigManager {
@@ -140,18 +142,18 @@ public class ConfigManager {
     public String getDbPassword() { return dbPassword; }
     public int getCheckInterval() { return checkInterval; }
     public boolean isCommunityRewardBroadcast() { return communityRewardBroadcast; }
-    public String getPrefix() { return prefix; }
-    public String getMsgMilestoneAvailable() { return msgMilestoneAvailable; }
-    public String getMsgMilestoneLocked() { return msgMilestoneLocked; }
-    public String getMsgMilestoneClaimed() { return msgMilestoneClaimed; }
-    public String getMsgNoMilestone() { return msgNoMilestone; }
-    public String getMsgPlayerNotFound() { return msgPlayerNotFound; }
-    public String getMsgConfigReloaded() { return msgConfigReloaded; }
-    public String getGuiTitle() { return guiTitle; }
-    public String getAvailableColor() { return availableColor; }
-    public String getLockedColor() { return lockedColor; }
-    public String getClaimedColor() { return claimedColor; }
-    public String getClaimButton() { return claimButton; }
-    public String getChooseButton() { return chooseButton; }
+    public String getPrefix() { return MessageUtil.color(prefix); }
+    public String getMsgMilestoneAvailable() { return MessageUtil.color(msgMilestoneAvailable); }
+    public String getMsgMilestoneLocked() { return MessageUtil.color(msgMilestoneLocked); }
+    public String getMsgMilestoneClaimed() { return MessageUtil.color(msgMilestoneClaimed); }
+    public String getMsgNoMilestone() { return MessageUtil.color(msgNoMilestone); }
+    public String getMsgPlayerNotFound() { return MessageUtil.color(msgPlayerNotFound); }
+    public String getMsgConfigReloaded() { return MessageUtil.color(msgConfigReloaded); }
+    public String getGuiTitle() { return MessageUtil.color(guiTitle); }
+    public String getAvailableColor() { return MessageUtil.color(availableColor); }
+    public String getLockedColor() { return MessageUtil.color(lockedColor); }
+    public String getClaimedColor() { return MessageUtil.color(claimedColor); }
+    public String getClaimButton() { return MessageUtil.color(claimButton); }
+    public String getChooseButton() { return MessageUtil.color(chooseButton); }
     public int[] getMilestoneSlots() { return milestoneSlots; }
 }

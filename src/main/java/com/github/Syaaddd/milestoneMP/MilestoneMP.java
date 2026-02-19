@@ -13,6 +13,7 @@ import com.github.Syaaddd.milestoneMP.milestone.MilestoneManager;
 import com.github.Syaaddd.milestoneMP.placeholder.PlaceholderHook;
 import com.github.Syaaddd.milestoneMP.util.MessageUtil;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MilestoneMP extends JavaPlugin {
@@ -45,24 +46,39 @@ public final class MilestoneMP extends JavaPlugin {
 
         MilestoneGUI milestoneGUI = new MilestoneGUI(this);
         ChoiceGUI choiceGUI = milestoneCommand.getChoiceGUI();
+        
+        String guiTitle = MessageUtil.color(getConfigManager().getGuiTitle());
+        String choiceTitlePrefix = MessageUtil.color("&8Pilih Reward - ");
 
         getServer().getPluginManager().registerEvents(new org.bukkit.event.Listener() {
             @org.bukkit.event.EventHandler
             public void onInventoryClick(InventoryClickEvent event) {
                 String title = event.getView().getTitle();
                 
-                if (title.contains(MessageUtil.color(getConfigManager().getGuiTitle())) || 
-                    title.contains("Pilih Reward")) {
+                if (title.equals(guiTitle) || title.startsWith(choiceTitlePrefix)) {
                     event.setCancelled(true);
+                    event.setResult(org.bukkit.event.Event.Result.DENY);
                     
                     if (!(event.getWhoClicked() instanceof org.bukkit.entity.Player player)) return;
                     
-                    if (title.contains("Pilih Reward")) {
-                        String milestoneId = title.replace(MessageUtil.color("&8Pilih Reward - "), "");
+                    if (title.startsWith(choiceTitlePrefix)) {
+                        String milestoneId = title.replace(choiceTitlePrefix, "");
                         choiceGUI.handleChoice(player, milestoneId, event.getSlot());
                     } else {
                         milestoneGUI.handleClick(player, event.getSlot());
                     }
+                }
+            }
+        }, this);
+
+        getServer().getPluginManager().registerEvents(new org.bukkit.event.Listener() {
+            @org.bukkit.event.EventHandler
+            public void onInventoryDrag(InventoryDragEvent event) {
+                String title = event.getView().getTitle();
+                
+                if (title.equals(guiTitle) || title.startsWith(choiceTitlePrefix)) {
+                    event.setCancelled(true);
+                    event.setResult(org.bukkit.event.Event.Result.DENY);
                 }
             }
         }, this);

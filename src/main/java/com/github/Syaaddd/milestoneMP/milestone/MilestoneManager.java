@@ -3,7 +3,6 @@ package com.github.Syaaddd.milestoneMP.milestone;
 import com.github.Syaaddd.milestoneMP.MilestoneMP;
 import com.github.Syaaddd.milestoneMP.data.PlayerData;
 import com.github.Syaaddd.milestoneMP.data.MilestoneRepository;
-import com.github.Syaaddd.milestoneMP.util.MessageUtil;
 import com.github.Syaaddd.milestoneMP.util.RewardExecutor;
 import org.bukkit.entity.Player;
 
@@ -33,7 +32,7 @@ public class MilestoneManager {
 
             if (hasReached(data, milestone)) {
                 String msg = plugin.getConfigManager().getMsgMilestoneAvailable();
-                player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + msg));
+                player.sendMessage(plugin.getConfigManager().getPrefix() + msg);
                 break;
             }
         }
@@ -109,8 +108,8 @@ public class MilestoneManager {
         Milestone milestone = plugin.getConfigManager().getMilestone(milestoneId);
         
         if (milestone == null) {
-            player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + 
-                plugin.getConfigManager().getMsgNoMilestone()));
+            player.sendMessage(plugin.getConfigManager().getPrefix() + 
+                plugin.getConfigManager().getMsgNoMilestone());
             return;
         }
 
@@ -118,13 +117,13 @@ public class MilestoneManager {
         if (data == null) return;
 
         if (data.hasClaimed(milestoneId)) {
-            player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + "&cMilestone sudah diklaim."));
+            player.sendMessage(plugin.getConfigManager().getPrefix() + "&cMilestone sudah diklaim.");
             return;
         }
 
         if (!hasReached(data, milestone)) {
-            player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + 
-                plugin.getConfigManager().getMsgMilestoneLocked()));
+            player.sendMessage(plugin.getConfigManager().getPrefix() + 
+                plugin.getConfigManager().getMsgMilestoneLocked());
             return;
         }
 
@@ -154,12 +153,12 @@ public class MilestoneManager {
                 
                 String msg = plugin.getConfigManager().getMsgMilestoneClaimed()
                     .replace("%reward%", choice.getName());
-                player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + msg));
+                player.sendMessage(plugin.getConfigManager().getPrefix() + msg);
             }
         } else {
             repository.claimMilestone(uuid, milestoneId, "");
-            player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + 
-                plugin.getConfigManager().getMsgMilestoneClaimed()));
+            player.sendMessage(plugin.getConfigManager().getPrefix() + 
+                plugin.getConfigManager().getMsgMilestoneClaimed());
         }
     }
 

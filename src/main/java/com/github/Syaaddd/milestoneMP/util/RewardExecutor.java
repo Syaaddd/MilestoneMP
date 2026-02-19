@@ -28,8 +28,8 @@ public class RewardExecutor {
         if (plugin.getConfigManager().isCommunityRewardBroadcast()) {
             String msg = plugin.getConfigManager().getMsgMilestoneClaimed()
                 .replace("%reward%", choice.getName());
-            Bukkit.broadcastMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + 
-                "&7" + player.getName() + " " + msg));
+            Bukkit.broadcastMessage(plugin.getConfigManager().getPrefix() + 
+                "&7" + player.getName() + " " + msg);
         }
     }
 }
