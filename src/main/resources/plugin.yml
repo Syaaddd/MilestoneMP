@@ -1,0 +1,26 @@
+name: MilestoneMP
+version: '1.0.0'
+main: com.github.Syaaddd.milestoneMP.MilestoneMP
+api-version: '1.21'
+author: Syaaddd
+description: Unlock Your Path, Not Just Rewards - A unique milestone plugin with choice-based rewards
+
+commands:
+  milestone:
+    description: Main milestone command
+    usage: /<command> [open|claim|check|reload]
+    aliases: [ms, mp]
+
+permissions:
+  milestonemp.open:
+    description: Allow player to open milestone GUI
+    default: true
+  milestonemp.claim:
+    description: Allow player to claim milestones
+    default: true
+  milestonemp.check:
+    description: Allow player to check milestone progress
+    default: true
+  milestonemp.admin:
+    description: Admin permissions for milestone management
+    default: op

@@ -1,0 +1,70 @@
+database:
+  type: sqlite
+  host: localhost
+  port: 3306
+  database: milestoneMP
+  username: root
+  password: ""
+
+settings:
+  check-interval: 60
+  community-reward-broadcast: true
+
+messages:
+  prefix: "&8[&6Milestone&8] "
+  milestone-available: "&aMilestone tersedia! Klik untuk klaim."
+  milestone-locked: "&cMilestone ini masih terkunci."
+  milestone-claimed: "&eReward berhasil diklaim: %reward%"
+  no-milestone: "&cTidak ada milestone yang tersedia."
+  player-not-found: "&cPemain tidak ditemukan."
+  config-reloaded: "&aKonfigurasi berhasil dimuat ulang."
+
+gui:
+  title: "&8Progression Tree"
+  available-color: "&a"
+  locked-color: "&7"
+  claimed-color: "&e"
+  claim-button: "&aKlik untuk Klaim"
+  choose-button: "&ePilih Reward"
+
+milestones:
+  beginner:
+    type: PLAYTIME
+    amount: 3600
+    choices:
+      - id: reward_fly
+        name: "&bSewa Elytra 1 Jam"
+        command: "give {player} elytra 1"
+      - id: reward_money
+        name: "&61000 Uang Server"
+        command: "eco give {player} 1000"
+  
+  intermediate:
+    type: PLAYTIME
+    amount: 7200
+    choices:
+      - id: reward_token
+        name: "&d10 Token"
+        command: "tokens give {player} 10"
+      - id: reward_voucher
+        name: "&5Voucher Shop"
+        command: "give {player} paper 1"
+
+  advanced:
+    type: BLOCK_BREAK
+    amount: 5000
+    choices:
+      - id: reward_pickaxe
+        name: "&ePickaxe Efficiency V"
+        command: "give {player} diamond_pickaxe{Enchantments:[{id:efficiency,lvl:5}]}"
+
+  pro:
+    type: PLAYER_KILL
+    amount: 100
+    choices:
+      - id: reward_sword
+        name: "&cSword Sharpness V"
+        command: "give {player} diamond_sword{Enchantments:[{id:sharpness,lvl:5}]}"
+      - id: reward_combat
+        name: "&4Combat XP Boost"
+        command: "xp give {player} 50 levels"
