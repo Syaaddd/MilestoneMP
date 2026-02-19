@@ -8,6 +8,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.*;
+import java.util.Arrays;
 
 public class ConfigManager {
 
@@ -38,6 +39,7 @@ public class ConfigManager {
     private String claimedColor;
     private String claimButton;
     private String chooseButton;
+    private int[] milestoneSlots;
 
     private Map<String, Milestone> milestones;
 
@@ -74,6 +76,12 @@ public class ConfigManager {
         claimedColor = config.getString("gui.claimed-color", "&e");
         claimButton = config.getString("gui.claim-button", "&aKlik untuk Klaim");
         chooseButton = config.getString("gui.choose-button", "&ePilih Reward");
+        
+        List<Integer> slotList = config.getIntegerList("gui.milestone-slots");
+        if (slotList.isEmpty()) {
+            slotList = Arrays.asList(10, 12, 14, 16, 19, 21, 23, 25, 28, 30, 32, 34);
+        }
+        milestoneSlots = slotList.stream().mapToInt(Integer::intValue).toArray();
 
         loadMilestones();
     }
@@ -145,4 +153,5 @@ public class ConfigManager {
     public String getClaimedColor() { return claimedColor; }
     public String getClaimButton() { return claimButton; }
     public String getChooseButton() { return chooseButton; }
+    public int[] getMilestoneSlots() { return milestoneSlots; }
 }

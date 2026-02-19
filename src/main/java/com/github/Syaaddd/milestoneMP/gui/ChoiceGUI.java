@@ -4,6 +4,7 @@ import com.github.Syaaddd.milestoneMP.MilestoneMP;
 import com.github.Syaaddd.milestoneMP.milestone.Milestone;
 import com.github.Syaaddd.milestoneMP.milestone.MilestoneChoice;
 import com.github.Syaaddd.milestoneMP.milestone.MilestoneManager;
+import com.github.Syaaddd.milestoneMP.util.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -30,27 +31,24 @@ public class ChoiceGUI {
         }
 
         Inventory inv = Bukkit.createInventory(null, 27, 
-            "&8Pilih Reward - " + milestone.getId());
+            MessageUtil.color("&8Pilih Reward - " + milestone.getId()));
 
-        int slot = 10;
-        for (MilestoneChoice choice : milestone.getChoices()) {
+        int[] slots = plugin.getConfigManager().getMilestoneSlots();
+        
+        for (int i = 0; i < milestone.getChoices().size() && i < slots.length; i++) {
+            MilestoneChoice choice = milestone.getChoices().get(i);
             ItemStack item = new ItemStack(Material.CHEST);
             ItemMeta meta = item.getItemMeta();
             
-            meta.setDisplayName("&e" + choice.getName());
+            meta.setDisplayName(MessageUtil.color("&e" + choice.getName()));
             
             List<String> lore = new ArrayList<>();
-            lore.add("&7Klik untuk klaim reward ini");
-            lore.add("&8Command: " + choice.getCommand());
+            lore.add(MessageUtil.color("&7Klik untuk klaim reward ini"));
+            lore.add(MessageUtil.color("&8Command: " + choice.getCommand()));
             meta.setLore(lore);
             
             item.setItemMeta(meta);
-            inv.setItem(slot, item);
-            
-            slot += 2;
-            if (slot % 9 == 8) {
-                slot += 2;
-            }
+            inv.setItem(slots[i], item);
         }
 
         player.openInventory(inv);
@@ -61,10 +59,9 @@ public class ChoiceGUI {
         if (milestone == null || !milestone.hasChoices()) return;
 
         List<MilestoneChoice> choices = milestone.getChoices();
+        int[] slots = plugin.getConfigManager().getMilestoneSlots();
         
-        int[] slots = {10, 12, 14, 16, 19, 21, 23, 25};
-        
-        for (int i = 0; i < choices.size(); i++) {
+        for (int i = 0; i < choices.size() && i < slots.length; i++) {
             if (slot == slots[i]) {
                 MilestoneChoice choice = choices.get(i);
                 player.closeInventory();

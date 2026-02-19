@@ -4,13 +4,13 @@ import com.github.Syaaddd.milestoneMP.MilestoneMP;
 import com.github.Syaaddd.milestoneMP.data.PlayerData;
 import com.github.Syaaddd.milestoneMP.milestone.Milestone;
 import com.github.Syaaddd.milestoneMP.milestone.MilestoneManager;
+import com.github.Syaaddd.milestoneMP.util.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,22 +31,49 @@ public class MilestoneGUI {
         List<Milestone> milestones = plugin.getConfigManager().getMilestonesInOrder();
         MilestoneManager manager = plugin.getMilestoneManager();
 
-        int slot = 10;
+        int[] slots = plugin.getConfigManager().getMilestoneSlots();
+        int slotIndex = 0;
         
         for (Milestone milestone : milestones) {
+            if (slotIndex >= slots.length) break;
+            
+            int slot = slots[slotIndex];
             boolean claimed = data != null && data.hasClaimed(milestone.getId());
             boolean available = data != null && manager.hasReached(data, milestone);
 
             ItemStack item = createMilestoneItem(milestone, claimed, available, data);
             inv.setItem(slot, item);
 
-            slot += 2;
-            if (slot % 9 == 8) {
-                slot += 2;
-            }
+            slotIndex++;
         }
 
         player.openInventory(inv);
+    }
+
+    public void handleClick(Player player, int slot) {
+        PlayerData data = plugin.getRepository().getPlayerData(player.getUniqueId());
+        List<Milestone> milestones = plugin.getConfigManager().getMilestonesInOrder();
+        MilestoneManager manager = plugin.getMilestoneManager();
+        int[] slots = plugin.getConfigManager().getMilestoneSlots();
+
+        for (int i = 0; i < milestones.size() && i < slots.length; i++) {
+            if (slots[i] == slot) {
+                Milestone milestone = milestones.get(i);
+                boolean claimed = data != null && data.hasClaimed(milestone.getId());
+                boolean available = data != null && manager.hasReached(data, milestone);
+
+                if (available && !claimed) {
+                    if (milestone.hasChoices()) {
+                        ChoiceGUI choiceGUI = new ChoiceGUI(plugin);
+                        choiceGUI.open(player, milestone.getId());
+                    } else {
+                        plugin.getMilestoneManager().claimMilestone(player, milestone.getId(), null);
+                        player.closeInventory();
+                    }
+                }
+                break;
+            }
+        }
     }
 
     private ItemStack createMilestoneItem(Milestone milestone, boolean claimed, boolean available, PlayerData data) {
@@ -68,14 +95,14 @@ public class MilestoneGUI {
         String typeStr = milestone.getType().name().replace("_", " ");
         String amountStr = formatAmount(milestone.getAmount(), milestone.getType());
 
-        meta.setDisplayName(color + milestone.getId());
+        meta.setDisplayName(MessageUtil.color(color + milestone.getId()));
         
         List<String> lore = new ArrayList<>();
-        lore.add("&7Tipe: " + typeStr);
-        lore.add("&7Target: " + amountStr);
+        lore.add(MessageUtil.color("&7Tipe: " + typeStr));
+        lore.add(MessageUtil.color("&7Target: " + amountStr));
         
         if (claimed) {
-            lore.add("&a&l✓ Sudah diklaim");
+            lore.add(MessageUtil.color("&a&l✓ Sudah diklaim"));
             String choiceId = data.getClaimedChoice(milestone.getId());
             if (choiceId != null) {
                 final String finalChoiceId = choiceId;
@@ -84,16 +111,16 @@ public class MilestoneGUI {
                     .findFirst()
                     .orElse(null);
                 if (choice != null) {
-                    lore.add("&eReward: " + choice.getName());
+                    lore.add(MessageUtil.color("&eReward: " + choice.getName()));
                 }
             }
         } else if (available) {
-            lore.add("&a" + plugin.getConfigManager().getClaimButton());
+            lore.add(MessageUtil.color("&a" + plugin.getConfigManager().getClaimButton()));
             if (milestone.hasChoices()) {
-                lore.add("&e" + plugin.getConfigManager().getChooseButton());
+                lore.add(MessageUtil.color("&e" + plugin.getConfigManager().getChooseButton()));
             }
         } else {
-            lore.add("&cTerkunci");
+            lore.add(MessageUtil.color("&cTerkunci"));
         }
 
         meta.setLore(lore);
