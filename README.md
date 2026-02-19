@@ -55,7 +55,7 @@ A unique Minecraft server plugin that brings a progression tree system where pla
 | `%milestone_mp_progress%` | Progress percentage |
 | `%milestone_mp_playtime%` | Player playtime (Xh Ym) |
 | `%milestone_mp_blocks_broken%` | Blocks broken |
-| %milestone_mp_mobs_killed% | Mobs killed |
+| `%milestone_mp_mobs_killed%` | Mobs killed |
 | `%milestone_mp_players_killed%` | PvP kills |
 | `%milestone_mp_community_playtime%` | Total server playtime |
 | `%milestone_mp_can_claim%` | Can claim (Yes/No) |
@@ -93,4 +93,4 @@ milestones:
 ---
 
 **License:** MIT  
-**Version:** 1.0.0
+**Version:** 1.0.1
