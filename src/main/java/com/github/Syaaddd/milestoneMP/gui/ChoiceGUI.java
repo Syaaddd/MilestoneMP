@@ -31,7 +31,7 @@ public class ChoiceGUI {
         }
 
         Inventory inv = Bukkit.createInventory(null, 27, 
-            MessageUtil.color("&8Pilih Reward - " + milestone.getId()));
+            MessageUtil.color("&8Choose Reward - " + milestone.getId()));
 
         int[] slots = plugin.getConfigManager().getMilestoneSlots();
         
@@ -43,7 +43,7 @@ public class ChoiceGUI {
             meta.setDisplayName(MessageUtil.color("&e" + choice.getName()));
             
             List<String> lore = new ArrayList<>();
-            lore.add(MessageUtil.color("&7Klik untuk klaim reward ini"));
+            lore.add(MessageUtil.color("&7Click to claim this reward"));
             lore.add(MessageUtil.color("&8Command: " + choice.getCommand()));
             meta.setLore(lore);
             

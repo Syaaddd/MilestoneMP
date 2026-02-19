@@ -12,20 +12,23 @@ settings:
 
 messages:
   prefix: "&8[&6Milestone&8] "
-  milestone-available: "&aMilestone tersedia! Klik untuk klaim."
-  milestone-locked: "&cMilestone ini masih terkunci."
-  milestone-claimed: "&eReward berhasil diklaim: %reward%"
-  no-milestone: "&cTidak ada milestone yang tersedia."
-  player-not-found: "&cPemain tidak ditemukan."
-  config-reloaded: "&aKonfigurasi berhasil dimuat ulang."
+  milestone-available: "&aMilestone available! Click to claim."
+  milestone-locked: "&cThis milestone is still locked."
+  milestone-claimed: "&eReward claimed: %reward%"
+  no-milestone: "&cNo milestone available."
+  player-not-found: "&cPlayer not found."
+  config-reloaded: "&aConfiguration reloaded successfully."
+  no-permission: "&cYou don't have permission."
+  already-claimed: "&cThis milestone has already been claimed."
+  milestone-claimed-self: "&eYou claimed: %reward%"
 
 gui:
   title: "&8Progression Tree"
   available-color: "&a"
   locked-color: "&7"
   claimed-color: "&e"
-  claim-button: "&aKlik untuk Klaim"
-  choose-button: "&ePilih Reward"
+  claim-button: "&aClick to Claim"
+  choose-button: "&eChoose Reward"
   milestone-slots:
     - 10
     - 12
@@ -46,10 +49,10 @@ milestones:
     amount: 3600
     choices:
       - id: reward_fly
-        name: "&bSewa Elytra 1 Jam"
+        name: "&bElytra Rental (1 Hour)"
         command: "give {player} elytra 1"
       - id: reward_money
-        name: "&61000 Uang Server"
+        name: "&61000 Server Money"
         command: "eco give {player} 1000"
   
   intermediate:
@@ -57,10 +60,10 @@ milestones:
     amount: 7200
     choices:
       - id: reward_token
-        name: "&d10 Token"
+        name: "&d10 Tokens"
         command: "tokens give {player} 10"
       - id: reward_voucher
-        name: "&5Voucher Shop"
+        name: "&5Shop Voucher"
         command: "give {player} paper 1"
 
   advanced:
@@ -79,5 +82,5 @@ milestones:
         name: "&cSword Sharpness V"
         command: "give {player} diamond_sword{Enchantments:[{id:sharpness,lvl:5}]}"
       - id: reward_combat
-        name: "&4Combat XP Boost"
+        name: "&450 Levels XP"
         command: "xp give {player} 50 levels"

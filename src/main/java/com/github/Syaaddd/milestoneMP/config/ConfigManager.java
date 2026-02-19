@@ -34,6 +34,9 @@ public class ConfigManager {
     private String msgNoMilestone;
     private String msgPlayerNotFound;
     private String msgConfigReloaded;
+    private String msgNoPermission;
+    private String msgAlreadyClaimed;
+    private String msgMilestoneClaimedSelf;
 
     private String guiTitle;
     private String availableColor;
@@ -65,19 +68,22 @@ public class ConfigManager {
         communityRewardBroadcast = config.getBoolean("settings.community-reward-broadcast", true);
 
         prefix = config.getString("messages.prefix", "&8[&6Milestone&8] ");
-        msgMilestoneAvailable = config.getString("messages.milestone-available", "&aMilestone tersedia! Klik untuk klaim.");
-        msgMilestoneLocked = config.getString("messages.milestone-locked", "&cMilestone ini masih terkunci.");
-        msgMilestoneClaimed = config.getString("messages.milestone-claimed", "&eReward berhasil diklaim: %reward%");
-        msgNoMilestone = config.getString("messages.no-milestone", "&cTidak ada milestone yang tersedia.");
-        msgPlayerNotFound = config.getString("messages.player-not-found", "&cPemain tidak ditemukan.");
-        msgConfigReloaded = config.getString("messages.config-reloaded", "&aKonfigurasi berhasil dimuat ulang.");
+        msgMilestoneAvailable = config.getString("messages.milestone-available", "&aMilestone available! Click to claim.");
+        msgMilestoneLocked = config.getString("messages.milestone-locked", "&cThis milestone is still locked.");
+        msgMilestoneClaimed = config.getString("messages.milestone-claimed", "&eReward claimed: %reward%");
+        msgNoMilestone = config.getString("messages.no-milestone", "&cNo milestone available.");
+        msgPlayerNotFound = config.getString("messages.player-not-found", "&cPlayer not found.");
+        msgConfigReloaded = config.getString("messages.config-reloaded", "&aConfiguration reloaded successfully.");
+        msgNoPermission = config.getString("messages.no-permission", "&cYou don't have permission.");
+        msgAlreadyClaimed = config.getString("messages.already-claimed", "&cThis milestone has already been claimed.");
+        msgMilestoneClaimedSelf = config.getString("messages.milestone-claimed-self", "&eYou claimed: %reward%");
 
         guiTitle = config.getString("gui.title", "&8Progression Tree");
         availableColor = config.getString("gui.available-color", "&a");
         lockedColor = config.getString("gui.locked-color", "&7");
         claimedColor = config.getString("gui.claimed-color", "&e");
-        claimButton = config.getString("gui.claim-button", "&aKlik untuk Klaim");
-        chooseButton = config.getString("gui.choose-button", "&ePilih Reward");
+        claimButton = config.getString("gui.claim-button", "&aClick to Claim");
+        chooseButton = config.getString("gui.choose-button", "&eChoose Reward");
         
         List<Integer> slotList = config.getIntegerList("gui.milestone-slots");
         if (slotList.isEmpty()) {
@@ -149,6 +155,9 @@ public class ConfigManager {
     public String getMsgNoMilestone() { return MessageUtil.color(msgNoMilestone); }
     public String getMsgPlayerNotFound() { return MessageUtil.color(msgPlayerNotFound); }
     public String getMsgConfigReloaded() { return MessageUtil.color(msgConfigReloaded); }
+    public String getMsgNoPermission() { return MessageUtil.color(msgNoPermission); }
+    public String getMsgAlreadyClaimed() { return MessageUtil.color(msgAlreadyClaimed); }
+    public String getMsgMilestoneClaimedSelf() { return MessageUtil.color(msgMilestoneClaimedSelf); }
     public String getGuiTitle() { return MessageUtil.color(guiTitle); }
     public String getAvailableColor() { return MessageUtil.color(availableColor); }
     public String getLockedColor() { return MessageUtil.color(lockedColor); }

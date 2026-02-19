@@ -48,7 +48,7 @@ public final class MilestoneMP extends JavaPlugin {
         ChoiceGUI choiceGUI = milestoneCommand.getChoiceGUI();
         
         String guiTitle = MessageUtil.color(getConfigManager().getGuiTitle());
-        String choiceTitlePrefix = MessageUtil.color("&8Pilih Reward - ");
+        String choiceTitlePrefix = MessageUtil.color("&8Choose Reward - ");
 
         getServer().getPluginManager().registerEvents(new org.bukkit.event.Listener() {
             @org.bukkit.event.EventHandler

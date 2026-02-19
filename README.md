@@ -71,16 +71,34 @@ Example `config.yml`:
 database:
   type: sqlite
 
+settings:
+  check-interval: 60
+  community-reward-broadcast: true
+
+messages:
+  prefix: "&8[&6Milestone&8] "
+  milestone-available: "&aMilestone available! Click to claim."
+  milestone-locked: "&cThis milestone is still locked."
+  milestone-claimed: "&eReward claimed: %reward%"
+
+gui:
+  title: "&8Progression Tree"
+  milestone-slots:
+    - 10
+    - 12
+    - 14
+    - 16
+
 milestones:
   beginner:
     type: PLAYTIME
     amount: 3600
     choices:
       - id: reward_fly
-        name: "Elytra 1 Jam"
+        name: "Elytra Rental (1 Hour)"
         command: "give {player} elytra 1"
       - id: reward_money
-        name: "1000 Money"
+        name: "1000 Server Money"
         command: "eco give {player} 1000"
 ```
 
@@ -94,4 +112,4 @@ milestones:
 ---
 
 **License:** MIT  
-**Version:** 1.0.2
+**Version:** 1.0.3

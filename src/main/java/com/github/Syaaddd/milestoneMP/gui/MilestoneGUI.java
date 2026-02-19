@@ -98,11 +98,11 @@ public class MilestoneGUI {
         meta.setDisplayName(MessageUtil.color(color + milestone.getId()));
         
         List<String> lore = new ArrayList<>();
-        lore.add(MessageUtil.color("&7Tipe: " + typeStr));
+        lore.add(MessageUtil.color("&7Type: " + typeStr));
         lore.add(MessageUtil.color("&7Target: " + amountStr));
         
         if (claimed) {
-            lore.add(MessageUtil.color("&a&l✓ Sudah diklaim"));
+            lore.add(MessageUtil.color("&a&l✓ Claimed"));
             String choiceId = data.getClaimedChoice(milestone.getId());
             if (choiceId != null) {
                 final String finalChoiceId = choiceId;
@@ -120,7 +120,7 @@ public class MilestoneGUI {
                 lore.add(MessageUtil.color("&e" + plugin.getConfigManager().getChooseButton()));
             }
         } else {
-            lore.add(MessageUtil.color("&cTerkunci"));
+            lore.add(MessageUtil.color("&cLocked"));
         }
 
         meta.setLore(lore);
@@ -139,8 +139,8 @@ public class MilestoneGUI {
         int hours = seconds / 3600;
         int minutes = (seconds % 3600) / 60;
         if (hours > 0) {
-            return hours + " jam" + (minutes > 0 ? " " + minutes + " menit" : "");
+            return hours + "h" + (minutes > 0 ? " " + minutes + "m" : "");
         }
-        return minutes + " menit";
+        return minutes + "m";
     }
 }

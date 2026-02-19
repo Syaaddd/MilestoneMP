@@ -117,7 +117,8 @@ public class MilestoneManager {
         if (data == null) return;
 
         if (data.hasClaimed(milestoneId)) {
-            player.sendMessage(plugin.getConfigManager().getPrefix() + "&cMilestone sudah diklaim.");
+            player.sendMessage(plugin.getConfigManager().getPrefix() + 
+                plugin.getConfigManager().getMsgAlreadyClaimed());
             return;
         }
 

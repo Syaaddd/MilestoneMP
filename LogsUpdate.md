@@ -2,6 +2,19 @@
 
 ---
 
+## v1.0.3
+
+### Changes
+- Changed all messages to English
+- Changed all GUI text to English
+- Changed default milestone rewards to English names
+- Added new message keys:
+  - `no-permission`
+  - `already-claimed`
+  - `milestone-claimed-self`
+
+---
+
 ## v1.0.2
 
 ### Fixes
