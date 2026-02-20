@@ -4,6 +4,7 @@ import com.github.Syaaddd.milestoneMP.MilestoneMP;
 import com.github.Syaaddd.milestoneMP.data.PlayerData;
 import com.github.Syaaddd.milestoneMP.milestone.Milestone;
 import com.github.Syaaddd.milestoneMP.milestone.MilestoneManager;
+import com.github.Syaaddd.milestoneMP.milestone.MilestoneType;
 import com.github.Syaaddd.milestoneMP.util.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -27,6 +28,8 @@ public class MilestoneGUI {
         Inventory inv = Bukkit.createInventory(null, 54, 
             plugin.getConfigManager().getGuiTitle());
 
+        fillEmptySlots(inv);
+        
         PlayerData data = plugin.getRepository().getPlayerData(player.getUniqueId());
         List<Milestone> milestones = plugin.getConfigManager().getMilestonesInOrder();
         MilestoneManager manager = plugin.getMilestoneManager();
@@ -48,6 +51,17 @@ public class MilestoneGUI {
         }
 
         player.openInventory(inv);
+    }
+
+    private void fillEmptySlots(Inventory inv) {
+        ItemStack glass = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+        ItemMeta meta = glass.getItemMeta();
+        meta.setDisplayName(" ");
+        glass.setItemMeta(meta);
+        
+        for (int i = 0; i < 54; i++) {
+            inv.setItem(i, glass);
+        }
     }
 
     public void handleClick(Player player, int slot) {
@@ -77,16 +91,8 @@ public class MilestoneGUI {
     }
 
     private ItemStack createMilestoneItem(Milestone milestone, boolean claimed, boolean available, PlayerData data) {
-        ItemStack item;
+        ItemStack item = getItemForType(milestone.getType(), claimed, available);
         
-        if (claimed) {
-            item = new ItemStack(Material.GOLD_BLOCK);
-        } else if (available) {
-            item = new ItemStack(Material.LIME_STAINED_GLASS);
-        } else {
-            item = new ItemStack(Material.GRAY_STAINED_GLASS);
-        }
-
         ItemMeta meta = item.getItemMeta();
         String color = claimed ? plugin.getConfigManager().getClaimedColor() :
                        (available ? plugin.getConfigManager().getAvailableColor() :
@@ -94,15 +100,20 @@ public class MilestoneGUI {
 
         String typeStr = milestone.getType().name().replace("_", " ");
         String amountStr = formatAmount(milestone.getAmount(), milestone.getType());
+        String currentStr = getCurrentProgress(data, milestone);
+        double progress = getProgress(data, milestone);
 
-        meta.setDisplayName(MessageUtil.color(color + milestone.getId()));
+        meta.setDisplayName(MessageUtil.color("&6&l" + milestone.getId()));
         
         List<String> lore = new ArrayList<>();
-        lore.add(MessageUtil.color("&7Type: " + typeStr));
-        lore.add(MessageUtil.color("&7Target: " + amountStr));
+        lore.add(MessageUtil.color("&7------------------------"));
+        lore.add(MessageUtil.color("&7Type: &f" + typeStr));
+        lore.add(MessageUtil.color("&7Progress: &f" + currentStr + " &7/ &f" + amountStr));
+        lore.add(MessageUtil.color(createProgressBar(progress)));
+        lore.add(MessageUtil.color("&7------------------------"));
         
         if (claimed) {
-            lore.add(MessageUtil.color("&a&l✓ Claimed"));
+            lore.add(MessageUtil.color("&a&l✓ CLAIMED"));
             String choiceId = data.getClaimedChoice(milestone.getId());
             if (choiceId != null) {
                 final String finalChoiceId = choiceId;
@@ -111,7 +122,7 @@ public class MilestoneGUI {
                     .findFirst()
                     .orElse(null);
                 if (choice != null) {
-                    lore.add(MessageUtil.color("&eReward: " + choice.getName()));
+                    lore.add(MessageUtil.color("&7Reward: &b" + choice.getName()));
                 }
             }
         } else if (available) {
@@ -120,15 +131,93 @@ public class MilestoneGUI {
                 lore.add(MessageUtil.color("&e" + plugin.getConfigManager().getChooseButton()));
             }
         } else {
-            lore.add(MessageUtil.color("&cLocked"));
+            lore.add(MessageUtil.color("&c🔒 Locked"));
         }
+        
+        lore.add(MessageUtil.color("&7------------------------"));
+        lore.add(MessageUtil.color("&8Click to " + (available ? "claim" : "view")));
 
         meta.setLore(lore);
         item.setItemMeta(meta);
         return item;
     }
 
-    private String formatAmount(int amount, com.github.Syaaddd.milestoneMP.milestone.MilestoneType type) {
+    private ItemStack getItemForType(MilestoneType type, boolean claimed, boolean available) {
+        Material material;
+        
+        if (claimed) {
+            material = Material.GOLD_BLOCK;
+        } else if (available) {
+            material = Material.LIME_STAINED_GLASS_PANE;
+        } else {
+            material = Material.GRAY_STAINED_GLASS_PANE;
+        }
+        
+        switch (type) {
+            case PLAYTIME -> material = claimed ? Material.CLOCK : (available ? Material.CLOCK : Material.GRAY_STAINED_GLASS_PANE);
+            case BLOCK_BREAK -> material = claimed ? Material.DIAMOND_PICKAXE : (available ? Material.DIAMOND_PICKAXE : Material.COBBLESTONE);
+            case BLOCK_PLACE -> material = claimed ? Material.BRICK : (available ? Material.BRICK : Material.COBBLESTONE);
+            case MOB_KILL -> material = claimed ? Material.ZOMBIE_HEAD : (available ? Material.ZOMBIE_HEAD : Material.RED_STAINED_GLASS_PANE);
+            case PLAYER_KILL -> material = claimed ? Material.IRON_SWORD : (available ? Material.IRON_SWORD : Material.RED_STAINED_GLASS_PANE);
+            case JOIN -> material = claimed ? Material.PAPER : (available ? Material.PAPER : Material.WHITE_STAINED_GLASS_PANE);
+            case COMMUNITY_PLAYTIME -> material = claimed ? Material.NETHER_STAR : (available ? Material.NETHER_STAR : Material.PURPLE_STAINED_GLASS_PANE);
+            default -> {}
+        }
+        
+        return new ItemStack(material);
+    }
+
+    private String createProgressBar(double percentage) {
+        int totalBars = 10;
+        int filledBars = (int) (percentage / 100 * totalBars);
+        StringBuilder bar = new StringBuilder("&b[");
+        
+        for (int i = 0; i < totalBars; i++) {
+            if (i < filledBars) {
+                bar.append("█");
+            } else {
+                bar.append("░");
+            }
+        }
+        
+        bar.append("] &b").append(String.format("%.0f", percentage)).append("%");
+        return bar.toString();
+    }
+
+    private String getCurrentProgress(PlayerData data, Milestone milestone) {
+        if (data == null) return "0";
+        
+        return switch (milestone.getType()) {
+            case PLAYTIME -> formatTime(data.getPlaytimeSeconds());
+            case BLOCK_BREAK -> String.valueOf(data.getBlocksBroken());
+            case BLOCK_PLACE -> String.valueOf(data.getBlocksPlaced());
+            case MOB_KILL -> String.valueOf(data.getMobsKilled());
+            case PLAYER_KILL -> String.valueOf(data.getPlayersKilled());
+            case JOIN -> String.valueOf(data.getJoinDays());
+            case COMMUNITY_PLAYTIME -> formatTime(plugin.getRepository().getTotalCommunityPlaytime());
+            default -> "0";
+        };
+    }
+
+    private double getProgress(PlayerData data, Milestone milestone) {
+        if (data == null) return 0;
+        
+        int current = switch (milestone.getType()) {
+            case PLAYTIME -> data.getPlaytimeSeconds();
+            case BLOCK_BREAK -> data.getBlocksBroken();
+            case BLOCK_PLACE -> data.getBlocksPlaced();
+            case MOB_KILL -> data.getMobsKilled();
+            case PLAYER_KILL -> data.getPlayersKilled();
+            case JOIN -> data.getJoinDays();
+            case COMMUNITY_PLAYTIME -> plugin.getRepository().getTotalCommunityPlaytime();
+            default -> 0;
+        };
+        
+        int required = milestone.getAmount();
+        return Math.min(100.0, (double) current / required * 100);
+    }
+
+    private String formatAmount(int amount, MilestoneType type) {
         return switch (type) {
             case PLAYTIME -> formatTime(amount);
             default -> String.valueOf(amount);

@@ -80,9 +80,17 @@ messages:
   milestone-available: "&aMilestone available! Click to claim."
   milestone-locked: "&cThis milestone is still locked."
   milestone-claimed: "&eReward claimed: %reward%"
+  no-milestone: "&cNo milestone available."
+  no-permission: "&cYou don't have permission."
+  already-claimed: "&cThis milestone has already been claimed."
 
 gui:
   title: "&8Progression Tree"
+  available-color: "&a"
+  locked-color: "&7"
+  claimed-color: "&e"
+  claim-button: "&aClick to Claim"
+  choose-button: "&eChoose Reward"
   milestone-slots:
     - 10
     - 12
@@ -104,6 +112,16 @@ milestones:
 
 ---
 
+## GUI Preview
+
+The GUI features:
+- Progress bar visual: `[████████░░] 80%`
+- Color-coded items by milestone type (CLOCK for playtime, PICKAXE for mining, etc.)
+- Empty slots filled with glass panes for clean look
+- Clear status indicators (🔒 Locked, ✓ Claimed)
+
+---
+
 ## Support
 
 - Issues: [GitHub Issues](https://github.com/Syaaddd/MilestoneMP/issues)
@@ -112,4 +130,4 @@ milestones:
 ---
 
 **License:** MIT  
-**Version:** 1.0.3
+**Version:** 1.0.4

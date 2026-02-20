@@ -2,6 +2,29 @@
 
 ---
 
+## v1.0.4
+
+### Fixes
+- Fixed color codes not working in chat messages (applied MessageUtil.color() to all sendMessage calls)
+
+### Features
+- Improved GUI tooltip/lore design:
+  - Added progress bar visual ([████░░░░░] 40%)
+  - Better color hierarchy for readability
+  - Added Unicode icons (🔒, ✓)
+  - More detailed lore with progress info
+- Improved item icons based on milestone type:
+  - PLAYTIME: CLOCK
+  - BLOCK_BREAK: DIAMOND_PICKAXE / COBBLESTONE
+  - MOB_KILL: ZOMBIE_HEAD
+  - PLAYER_KILL: IRON_SWORD
+  - etc.
+- Improved GUI layout:
+  - Fill empty slots with BLACK_STAINED_GLASS_PANE
+  - Better visual hierarchy
+
+---
+
 ## v1.0.3
 
 ### Changes
