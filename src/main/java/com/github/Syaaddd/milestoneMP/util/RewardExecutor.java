@@ -14,22 +14,29 @@ public class RewardExecutor {
     }
 
     public void executeReward(Player player, MilestoneChoice choice) {
-        String command = choice.formatCommand(player.getName());
+        String rawCommand = choice.formatCommand(player.getName());
         
-        if (command.startsWith("/")) {
-            command = command.substring(1);
+        final String command;
+        if (rawCommand.startsWith("/")) {
+            command = rawCommand.substring(1);
+        } else {
+            command = rawCommand;
         }
 
-        final String finalCommand = command;
+        final String playerName = player.getName();
+        final String rewardName = choice.getName();
+        
         Bukkit.getScheduler().runTask(plugin, () -> {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalCommand);
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
         });
 
+        String msg = plugin.getConfigManager().getMsgMilestoneClaimed()
+            .replace("%reward%", rewardName);
+        player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + msg));
+
         if (plugin.getConfigManager().isCommunityRewardBroadcast()) {
-            String msg = plugin.getConfigManager().getMsgMilestoneClaimed()
-                .replace("%reward%", choice.getName());
-            Bukkit.broadcastMessage(plugin.getConfigManager().getPrefix() + 
-                "&7" + player.getName() + " " + msg);
+            Bukkit.broadcastMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + 
+                "&7" + playerName + " " + msg));
         }
     }
 }

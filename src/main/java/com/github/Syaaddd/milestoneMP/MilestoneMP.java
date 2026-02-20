@@ -1,15 +1,19 @@
 package com.github.Syaaddd.milestoneMP;
 
 import com.github.Syaaddd.milestoneMP.command.MilestoneCommand;
+import com.github.Syaaddd.milestoneMP.command.MilestoneTabCompleter;
 import com.github.Syaaddd.milestoneMP.config.ConfigManager;
 import com.github.Syaaddd.milestoneMP.data.DatabaseManager;
 import com.github.Syaaddd.milestoneMP.data.MilestoneRepository;
 import com.github.Syaaddd.milestoneMP.gui.ChoiceGUI;
+import com.github.Syaaddd.milestoneMP.gui.MilestoneGUI;
 import com.github.Syaaddd.milestoneMP.listener.EventListeners;
 import com.github.Syaaddd.milestoneMP.listener.PlaytimeTracker;
 import com.github.Syaaddd.milestoneMP.milestone.MilestoneManager;
 import com.github.Syaaddd.milestoneMP.placeholder.PlaceholderHook;
+import com.github.Syaaddd.milestoneMP.util.MessageUtil;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MilestoneMP extends JavaPlugin {
@@ -36,19 +40,45 @@ public final class MilestoneMP extends JavaPlugin {
 
         milestoneCommand = new MilestoneCommand(this);
         getCommand("milestone").setExecutor(milestoneCommand);
+        getCommand("milestone").setTabCompleter(new MilestoneTabCompleter(this));
 
         getServer().getPluginManager().registerEvents(new EventListeners(this), this);
+
+        MilestoneGUI milestoneGUI = new MilestoneGUI(this);
+        ChoiceGUI choiceGUI = milestoneCommand.getChoiceGUI();
+        
+        String guiTitle = MessageUtil.color(getConfigManager().getGuiTitle());
+        String choiceTitlePrefix = MessageUtil.color("&8Choose Reward - ");
 
         getServer().getPluginManager().registerEvents(new org.bukkit.event.Listener() {
             @org.bukkit.event.EventHandler
             public void onInventoryClick(InventoryClickEvent event) {
-                if (event.getView().getTitle().contains("Pilih Reward")) {
+                String title = event.getView().getTitle();
+                
+                if (title.equals(guiTitle) || title.startsWith(choiceTitlePrefix)) {
                     event.setCancelled(true);
-                    if (event.getWhoClicked() instanceof org.bukkit.entity.Player player) {
-                        String title = event.getView().getTitle();
-                        String milestoneId = title.replace("&8Pilih Reward - ", "").replace("§8Pilih Reward - ", "");
-                        milestoneCommand.getChoiceGUI().handleChoice(player, milestoneId, event.getSlot());
+                    event.setResult(org.bukkit.event.Event.Result.DENY);
+                    
+                    if (!(event.getWhoClicked() instanceof org.bukkit.entity.Player player)) return;
+                    
+                    if (title.startsWith(choiceTitlePrefix)) {
+                        String milestoneId = title.replace(choiceTitlePrefix, "");
+                        choiceGUI.handleChoice(player, milestoneId, event.getSlot());
+                    } else {
+                        milestoneGUI.handleClick(player, event.getSlot());
                     }
+                }
+            }
+        }, this);
+
+        getServer().getPluginManager().registerEvents(new org.bukkit.event.Listener() {
+            @org.bukkit.event.EventHandler
+            public void onInventoryDrag(InventoryDragEvent event) {
+                String title = event.getView().getTitle();
+                
+                if (title.equals(guiTitle) || title.startsWith(choiceTitlePrefix)) {
+                    event.setCancelled(true);
+                    event.setResult(org.bukkit.event.Event.Result.DENY);
                 }
             }
         }, this);

@@ -24,6 +24,7 @@ public class EventListeners implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         plugin.getRepository().loadPlayer(player);
+        plugin.getMilestoneManager().checkMilestones(player);
     }
 
     @EventHandler
@@ -41,7 +42,6 @@ public class EventListeners implements Listener {
         
         if (data != null) {
             data.addBlockBreak(1);
-            plugin.getMilestoneManager().checkMilestones(player);
         }
     }
 
@@ -54,7 +54,6 @@ public class EventListeners implements Listener {
         
         if (data != null) {
             data.addBlockPlace(1);
-            plugin.getMilestoneManager().checkMilestones(player);
         }
     }
 
@@ -71,7 +70,6 @@ public class EventListeners implements Listener {
             } else {
                 data.addMobKill(1);
             }
-            plugin.getMilestoneManager().checkMilestones(player);
         }
     }
 }

@@ -3,6 +3,7 @@ package com.github.Syaaddd.milestoneMP.milestone;
 import com.github.Syaaddd.milestoneMP.MilestoneMP;
 import com.github.Syaaddd.milestoneMP.data.PlayerData;
 import com.github.Syaaddd.milestoneMP.data.MilestoneRepository;
+import com.github.Syaaddd.milestoneMP.util.MessageUtil;
 import com.github.Syaaddd.milestoneMP.util.RewardExecutor;
 import org.bukkit.entity.Player;
 
@@ -32,7 +33,7 @@ public class MilestoneManager {
 
             if (hasReached(data, milestone)) {
                 String msg = plugin.getConfigManager().getMsgMilestoneAvailable();
-                player.sendMessage(plugin.getConfigManager().getPrefix() + msg);
+                player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + msg));
                 break;
             }
         }
@@ -108,26 +109,26 @@ public class MilestoneManager {
         Milestone milestone = plugin.getConfigManager().getMilestone(milestoneId);
         
         if (milestone == null) {
-            player.sendMessage(plugin.getConfigManager().getPrefix() + 
-                plugin.getConfigManager().getMsgNoMilestone());
+            player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + 
+                plugin.getConfigManager().getMsgNoMilestone()));
             return;
         }
 
         PlayerData data = repository.getPlayerData(uuid);
-        if (data == null) return;
+        if (data == null) {
+            player.sendMessage("&cPlayer data not loaded. Try rejoining.");
+            return;
+        }
 
         if (data.hasClaimed(milestoneId)) {
-            player.sendMessage(plugin.getConfigManager().getPrefix() + "&cMilestone sudah diklaim.");
+            player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + 
+                plugin.getConfigManager().getMsgAlreadyClaimed()));
             return;
         }
 
         if (!hasReached(data, milestone)) {
-            player.sendMessage(plugin.getConfigManager().getPrefix() + 
-                plugin.getConfigManager().getMsgMilestoneLocked());
-            return;
-        }
-
-        if (milestone.hasChoices() && choiceId == null) {
+            player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + 
+                plugin.getConfigManager().getMsgMilestoneLocked()));
             return;
         }
 
@@ -143,22 +144,26 @@ public class MilestoneManager {
         if (selectedChoiceId != null) {
             final String finalChoiceId = selectedChoiceId;
             var choice = milestone.getChoices().stream()
-                .filter(c -> c.getId().equals(finalChoiceId))
+                .filter(c -> c.getId().equalsIgnoreCase(finalChoiceId))
                 .findFirst()
                 .orElse(null);
-
+            
             if (choice != null) {
                 rewardExecutor.executeReward(player, choice);
                 repository.claimMilestone(uuid, milestoneId, selectedChoiceId);
                 
                 String msg = plugin.getConfigManager().getMsgMilestoneClaimed()
                     .replace("%reward%", choice.getName());
-                player.sendMessage(plugin.getConfigManager().getPrefix() + msg);
+                player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + msg));
+            } else {
+                repository.claimMilestone(uuid, milestoneId, selectedChoiceId);
+                player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + 
+                    plugin.getConfigManager().getMsgMilestoneClaimed()));
             }
         } else {
             repository.claimMilestone(uuid, milestoneId, "");
-            player.sendMessage(plugin.getConfigManager().getPrefix() + 
-                plugin.getConfigManager().getMsgMilestoneClaimed());
+            player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + 
+                plugin.getConfigManager().getMsgMilestoneClaimed()));
         }
     }
 

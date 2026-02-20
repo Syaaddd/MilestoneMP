@@ -50,10 +50,6 @@ public class PlaytimeTracker extends BukkitRunnable {
                         data.setLastJoinTime(now);
                     }
                 }
-                
-                for (Player player : players) {
-                    plugin.getMilestoneManager().checkMilestones(player);
-                }
             }
         }.runTask(plugin);
     }

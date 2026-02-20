@@ -22,8 +22,11 @@ public class MilestoneRepository {
         if (cache.containsKey(uuid)) return;
 
         plugin.getDatabaseManager().loadPlayerData(uuid).thenAccept(data -> {
+            if (data == null) {
+                data = new PlayerData(uuid);
+            }
             cache.put(uuid, data);
-        });
+        }).join();
     }
 
     public PlayerData getPlayerData(UUID uuid) {
