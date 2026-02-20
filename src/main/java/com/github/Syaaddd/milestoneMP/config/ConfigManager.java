@@ -116,17 +116,12 @@ public class ConfigManager {
             String displayColor = ms.getString("color", "&6");
 
             List<MilestoneChoice> choices = new ArrayList<>();
-            ConfigurationSection choicesSection = ms.getConfigurationSection("choices");
-            if (choicesSection != null) {
-                for (String choiceKey : choicesSection.getKeys(false)) {
-                    ConfigurationSection choice = choicesSection.getConfigurationSection(choiceKey);
-                    if (choice == null) continue;
-
-                    String id = choice.getString("id", choiceKey);
-                    String name = choice.getString("name", "Reward");
-                    String command = choice.getString("command", "");
-                    choices.add(new MilestoneChoice(id, name, command));
-                }
+            List<Map<?, ?>> choicesList = ms.getMapList("choices");
+            for (Map<?, ?> choiceMap : choicesList) {
+                String id = choiceMap.get("id") != null ? choiceMap.get("id").toString() : "unknown";
+                String name = choiceMap.get("name") != null ? choiceMap.get("name").toString() : "Reward";
+                String command = choiceMap.get("command") != null ? choiceMap.get("command").toString() : "";
+                choices.add(new MilestoneChoice(id, name, command));
             }
 
             Milestone milestone = new Milestone(key, type, amount, choices, icon, displayColor);

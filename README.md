@@ -20,6 +20,7 @@ A unique Minecraft server plugin that brings a progression tree system where pla
   - `COMMUNITY_PLAYTIME` - Total server playtime
 - **SQLite & MySQL Support** - Flexible database options
 - **PlaceholderAPI Integration** - Display progress anywhere
+- **Console Command Rewards** - Commands executed via console sender
 
 ---
 
@@ -33,6 +34,8 @@ A unique Minecraft server plugin that brings a progression tree system where pla
 | `/milestone claim <id>` | Claim specific milestone |
 | `/milestone help` | Show help menu |
 | `/milestone reload` | Reload configuration (admin) |
+
+**Aliases:** `/ms`, `/mp`
 
 ---
 
@@ -56,8 +59,10 @@ A unique Minecraft server plugin that brings a progression tree system where pla
 | `%milestone_mp_progress%` | Progress percentage |
 | `%milestone_mp_playtime%` | Player playtime (Xh Ym) |
 | `%milestone_mp_blocks_broken%` | Blocks broken |
+| `%milestone_mp_blocks_placed%` | Blocks placed |
 | `%milestone_mp_mobs_killed%` | Mobs killed |
 | `%milestone_mp_players_killed%` | PvP kills |
+| `%milestone_mp_join_days%` | Login streak days |
 | `%milestone_mp_community_playtime%` | Total server playtime |
 | `%milestone_mp_can_claim%` | Can claim (Yes/No) |
 
@@ -70,6 +75,11 @@ Example `config.yml`:
 ```yaml
 database:
   type: sqlite
+  host: localhost
+  port: 3306
+  database: milestoneMP
+  username: root
+  password: ""
 
 settings:
   check-interval: 60
@@ -93,23 +103,68 @@ gui:
   choose-button: "&eChoose Reward"
   milestone-slots:
     - 10
+    - 11
     - 12
+    - 13
     - 14
+    - 15
     - 16
+    - 19
+    - 21
+    - 23
+    - 25
+    - 28
+    - 30
+    - 32
+    - 34
 
 milestones:
   beginner:
     type: PLAYTIME
     amount: 3600
-    icon: CLOCK        # Custom item icon (optional)
-    color: "&6"        # Custom display color (optional)
+    icon: CLOCK
+    color: "&6"
     choices:
       - id: reward_fly
-        name: "Elytra Rental (1 Hour)"
+        name: "&bElytra Rental (1 Hour)"
         command: "give {player} elytra 1"
       - id: reward_money
-        name: "1000 Server Money"
+        name: "&61000 Server Money"
         command: "eco give {player} 1000"
+
+  miner:
+    type: BLOCK_BREAK
+    amount: 100
+    icon: DIAMOND_PICKAXE
+    color: "&e"
+    choices:
+      - id: reward_pickaxe
+        name: "&eDiamond Pickaxe"
+        command: "give {player} diamond_pickaxe 1"
+
+  hunter:
+    type: MOB_KILL
+    amount: 50
+    icon: DIAMOND_SWORD
+    color: "&c"
+    choices:
+      - id: reward_sword
+        name: "&cEnchanted Sword"
+        command: "give {player} diamond_sword{Enchantments:[{id:sharpness,lvl:5}]} 1"
+```
+
+---
+
+## Reward System
+
+Rewards are executed as **console commands**. Use `{player}` as placeholder for player name.
+
+**Examples:**
+```yaml
+command: "give {player} diamond 10"
+command: "eco give {player} 5000"
+command: "xp give {player} 50 levels"
+command: "tokens give {player} 100"
 ```
 
 ---
@@ -118,18 +173,28 @@ milestones:
 
 The GUI features:
 - Progress bar visual: `[████████░░] 80%`
-- Color-coded items by milestone type (CLOCK for playtime, PICKAXE for mining, etc.)
+- Color-coded items by milestone type
 - Empty slots filled with glass panes for clean look
-- Clear status indicators (🔒 Locked, ✓ Claimed)
+- Clear status indicators (Locked, Available, Claimed)
+- Choice selection GUI for multiple reward options
+
+---
+
+## Installation
+
+1. Download the plugin JAR file
+2. Place it in your server's `plugins` folder
+3. Start the server
+4. Configure `config.yml` to your needs
+5. Use `/milestone reload` to reload config after changes
 
 ---
 
 ## Support
 
 - Issues: [GitHub Issues](https://github.com/Syaaddd/MilestoneMP/issues)
-- Discord: Join our community
 
 ---
 
 **License:** MIT  
-**Version:** 1.0.5
+**Version:** 1.0.6

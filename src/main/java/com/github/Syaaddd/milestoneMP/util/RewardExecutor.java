@@ -14,30 +14,29 @@ public class RewardExecutor {
     }
 
     public void executeReward(Player player, MilestoneChoice choice) {
-        String command = choice.formatCommand(player.getName());
+        String rawCommand = choice.formatCommand(player.getName());
         
-        if (command.startsWith("/")) {
-            command = command.substring(1);
+        final String command;
+        if (rawCommand.startsWith("/")) {
+            command = rawCommand.substring(1);
+        } else {
+            command = rawCommand;
         }
 
-        plugin.getLogger().info("Executing reward command: " + command + " for player: " + player.getName());
+        final String playerName = player.getName();
+        final String rewardName = choice.getName();
         
         Bukkit.getScheduler().runTask(plugin, () -> {
-            boolean success = Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
-            if (success) {
-                plugin.getLogger().info("Reward command executed successfully: " + command);
-            } else {
-                plugin.getLogger().warning("Failed to execute reward command: " + command);
-            }
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
         });
 
         String msg = plugin.getConfigManager().getMsgMilestoneClaimed()
-            .replace("%reward%", choice.getName());
+            .replace("%reward%", rewardName);
         player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + msg));
 
         if (plugin.getConfigManager().isCommunityRewardBroadcast()) {
             Bukkit.broadcastMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + 
-                "&7" + player.getName() + " " + msg));
+                "&7" + playerName + " " + msg));
         }
     }
 }

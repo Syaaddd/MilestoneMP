@@ -31,8 +31,11 @@ gui:
   choose-button: "&eChoose Reward"
   milestone-slots:
     - 10
+    - 11
     - 12
+    - 13
     - 14
+    - 15
     - 16
     - 19
     - 21
@@ -56,7 +59,7 @@ milestones:
       - id: reward_money
         name: "&61000 Server Money"
         command: "eco give {player} 1000"
-  
+
   intermediate:
     type: PLAYTIME
     amount: 7200
@@ -70,15 +73,55 @@ milestones:
         name: "&5Shop Voucher"
         command: "give {player} paper 1"
 
-  advanced:
+  Miner:
     type: BLOCK_BREAK
-    amount: 5000
+    amount: 100
     icon: DIAMOND_PICKAXE
     color: "&e"
     choices:
       - id: reward_pickaxe
         name: "&ePickaxe Efficiency V"
-        command: "give {player} diamond_pickaxe{Enchantments:[{id:efficiency,lvl:5}]}"
+        command: "give {player} diamond_pickaxe"
+
+  Miner2:
+    type: BLOCK_BREAK
+    amount: 150
+    icon: DIAMOND_PICKAXE
+    color: "&e"
+    choices:
+      - id: reward_pickaxe2
+        name: "&ePickaxe Efficiency V"
+        command: "eco give {player} 5000"
+
+  Miner3:
+    type: BLOCK_BREAK
+    amount: 250
+    icon: DIAMOND_PICKAXE
+    color: "&e"
+    choices:
+      - id: reward_pickaxe3
+        name: "&ePickaxe Efficiency V"
+        command: "eco give {player} 5000"
+
+  Miner4:
+    type: BLOCK_BREAK
+    amount: 500
+    icon: DIAMOND_PICKAXE
+    color: "&e"
+    choices:
+      - id: reward_pickaxe4
+        name: "&ePickaxe Efficiency V"
+        command: "eco give {player} 5000"
+
+  Miner5:
+    type: BLOCK_BREAK
+    amount: 550
+    icon: DIAMOND_PICKAXE
+    color: "&e"
+    choices:
+      - id: reward_pickaxe5
+        name: "&ePickaxe Efficiency V"
+        command: "eco give {player} 5000"
 
   pro:
     type: PLAYER_KILL
