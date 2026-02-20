@@ -99,14 +99,14 @@ public class MilestoneCommand implements CommandExecutor {
         player.sendMessage(MessageUtil.color("&8&m----------------------------------------"));
         player.sendMessage(MessageUtil.color("&6&lMilestoneMP &7- Help"));
         player.sendMessage(MessageUtil.color("&8&m----------------------------------------"));
-        player.sendMessage(MessageUtil.color(prefix + "&e/milestone &7- &fOpen milestone GUI"));
-        player.sendMessage(MessageUtil.color(prefix + "&e/milestone open &7- &fOpen milestone GUI"));
-        player.sendMessage(MessageUtil.color(prefix + "&e/milestone check &7- &fCheck your progress"));
-        player.sendMessage(MessageUtil.color(prefix + "&e/milestone claim <id> &7- &fClaim specific milestone"));
-        player.sendMessage(MessageUtil.color(prefix + "&e/milestone help &7- &fShow this help menu"));
+        player.sendMessage(MessageUtil.color("&e/milestone &7- &fOpen milestone GUI"));
+        player.sendMessage(MessageUtil.color("&e/milestone open &7- &fOpen milestone GUI"));
+        player.sendMessage(MessageUtil.color("&e/milestone check &7- &fCheck your progress"));
+        player.sendMessage(MessageUtil.color("&e/milestone claim <id> &7- &fClaim specific milestone"));
+        player.sendMessage(MessageUtil.color("&e/milestone help &7- &fShow this help menu"));
         
         if (player.hasPermission("milestonemp.admin")) {
-            player.sendMessage(MessageUtil.color(prefix + "&e/milestone reload &7- &fReload configuration"));
+            player.sendMessage(MessageUtil.color("&e/milestone reload &7- &fReload configuration"));
         }
         
         player.sendMessage(MessageUtil.color("&8&m----------------------------------------"));
