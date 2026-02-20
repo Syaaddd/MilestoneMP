@@ -20,14 +20,22 @@ public class RewardExecutor {
             command = command.substring(1);
         }
 
-        final String finalCommand = command;
+        plugin.getLogger().info("Executing reward command: " + command + " for player: " + player.getName());
+        
         Bukkit.getScheduler().runTask(plugin, () -> {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalCommand);
+            boolean success = Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+            if (success) {
+                plugin.getLogger().info("Reward command executed successfully: " + command);
+            } else {
+                plugin.getLogger().warning("Failed to execute reward command: " + command);
+            }
         });
 
+        String msg = plugin.getConfigManager().getMsgMilestoneClaimed()
+            .replace("%reward%", choice.getName());
+        player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + msg));
+
         if (plugin.getConfigManager().isCommunityRewardBroadcast()) {
-            String msg = plugin.getConfigManager().getMsgMilestoneClaimed()
-                .replace("%reward%", choice.getName());
             Bukkit.broadcastMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + 
                 "&7" + player.getName() + " " + msg));
         }

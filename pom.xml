@@ -5,8 +5,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.Syaaddd</groupId>
-  <artifactId>milestonemp</artifactId>
-  <version>1.0.4-SNAPSHOT</version>
+  <artifactId>MilestoneMP</artifactId>
+  <version>1.0.5-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>milestonemp</name>

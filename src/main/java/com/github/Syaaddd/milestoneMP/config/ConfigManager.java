@@ -112,6 +112,8 @@ public class ConfigManager {
             }
 
             int amount = ms.getInt("amount", 3600);
+            String icon = ms.getString("icon", "");
+            String displayColor = ms.getString("color", "&6");
 
             List<MilestoneChoice> choices = new ArrayList<>();
             ConfigurationSection choicesSection = ms.getConfigurationSection("choices");
@@ -127,7 +129,7 @@ public class ConfigManager {
                 }
             }
 
-            Milestone milestone = new Milestone(key, type, amount, choices);
+            Milestone milestone = new Milestone(key, type, amount, choices, icon, displayColor);
             milestones.put(key, milestone);
         }
     }

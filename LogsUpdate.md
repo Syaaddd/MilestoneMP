@@ -2,6 +2,29 @@
 
 ---
 
+## v1.0.5
+
+### Fixes
+- Fixed reward commands not executing to console
+- Fixed %reward% placeholder not being replaced in chat message
+
+### Features
+- Added custom icon configuration per milestone in config.yml
+- Added custom color configuration per milestone in config.yml
+- Added logging for reward command execution
+
+Example config:
+```yaml
+milestones:
+  beginner:
+    type: PLAYTIME
+    amount: 3600
+    icon: CLOCK
+    color: "&6"
+```
+
+---
+
 ## v1.0.4
 
 ### Fixes

@@ -101,6 +101,8 @@ milestones:
   beginner:
     type: PLAYTIME
     amount: 3600
+    icon: CLOCK        # Custom item icon (optional)
+    color: "&6"        # Custom display color (optional)
     choices:
       - id: reward_fly
         name: "Elytra Rental (1 Hour)"
@@ -130,4 +132,4 @@ The GUI features:
 ---
 
 **License:** MIT  
-**Version:** 1.0.4
+**Version:** 1.0.5

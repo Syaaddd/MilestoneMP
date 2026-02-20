@@ -8,12 +8,16 @@ public class Milestone {
     private final MilestoneType type;
     private final int amount;
     private final List<MilestoneChoice> choices;
+    private final String icon;
+    private final String displayColor;
 
-    public Milestone(String id, MilestoneType type, int amount, List<MilestoneChoice> choices) {
+    public Milestone(String id, MilestoneType type, int amount, List<MilestoneChoice> choices, String icon, String displayColor) {
         this.id = id;
         this.type = type;
         this.amount = amount;
         this.choices = choices;
+        this.icon = icon;
+        this.displayColor = displayColor;
     }
 
     public String getId() { return id; }
@@ -21,4 +25,6 @@ public class Milestone {
     public int getAmount() { return amount; }
     public List<MilestoneChoice> getChoices() { return choices; }
     public boolean hasChoices() { return choices != null && !choices.isEmpty(); }
+    public String getIcon() { return icon; }
+    public String getDisplayColor() { return displayColor; }
 }

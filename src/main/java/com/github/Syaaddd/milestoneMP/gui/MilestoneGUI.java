@@ -91,19 +91,21 @@ public class MilestoneGUI {
     }
 
     private ItemStack createMilestoneItem(Milestone milestone, boolean claimed, boolean available, PlayerData data) {
-        ItemStack item = getItemForType(milestone.getType(), claimed, available);
+        ItemStack item = getItemForType(milestone, claimed, available);
         
         ItemMeta meta = item.getItemMeta();
-        String color = claimed ? plugin.getConfigManager().getClaimedColor() :
-                       (available ? plugin.getConfigManager().getAvailableColor() :
-                        plugin.getConfigManager().getLockedColor());
+        
+        String customColor = milestone.getDisplayColor();
+        String statusColor = claimed ? plugin.getConfigManager().getClaimedColor() :
+                           (available ? plugin.getConfigManager().getAvailableColor() :
+                            plugin.getConfigManager().getLockedColor());
 
         String typeStr = milestone.getType().name().replace("_", " ");
         String amountStr = formatAmount(milestone.getAmount(), milestone.getType());
         String currentStr = getCurrentProgress(data, milestone);
         double progress = getProgress(data, milestone);
 
-        meta.setDisplayName(MessageUtil.color("&6&l" + milestone.getId()));
+        meta.setDisplayName(MessageUtil.color(customColor + "&l" + milestone.getId()));
         
         List<String> lore = new ArrayList<>();
         lore.add(MessageUtil.color("&7------------------------"));
@@ -126,7 +128,7 @@ public class MilestoneGUI {
                 }
             }
         } else if (available) {
-            lore.add(MessageUtil.color("&a" + plugin.getConfigManager().getClaimButton()));
+            lore.add(MessageUtil.color(statusColor + plugin.getConfigManager().getClaimButton()));
             if (milestone.hasChoices()) {
                 lore.add(MessageUtil.color("&e" + plugin.getConfigManager().getChooseButton()));
             }
@@ -142,26 +144,34 @@ public class MilestoneGUI {
         return item;
     }
 
-    private ItemStack getItemForType(MilestoneType type, boolean claimed, boolean available) {
-        Material material;
+    private ItemStack getItemForType(Milestone milestone, boolean claimed, boolean available) {
+        String customIcon = milestone.getIcon();
         
         if (claimed) {
-            material = Material.GOLD_BLOCK;
-        } else if (available) {
-            material = Material.LIME_STAINED_GLASS_PANE;
-        } else {
-            material = Material.GRAY_STAINED_GLASS_PANE;
+            return new ItemStack(Material.GOLD_BLOCK);
         }
         
+        if (!customIcon.isEmpty()) {
+            try {
+                Material customMat = Material.valueOf(customIcon.toUpperCase());
+                return new ItemStack(customMat);
+            } catch (IllegalArgumentException e) {
+                // Invalid material, use default
+            }
+        }
+        
+        MilestoneType type = milestone.getType();
+        Material material;
+        
         switch (type) {
-            case PLAYTIME -> material = claimed ? Material.CLOCK : (available ? Material.CLOCK : Material.GRAY_STAINED_GLASS_PANE);
-            case BLOCK_BREAK -> material = claimed ? Material.DIAMOND_PICKAXE : (available ? Material.DIAMOND_PICKAXE : Material.COBBLESTONE);
-            case BLOCK_PLACE -> material = claimed ? Material.BRICK : (available ? Material.BRICK : Material.COBBLESTONE);
-            case MOB_KILL -> material = claimed ? Material.ZOMBIE_HEAD : (available ? Material.ZOMBIE_HEAD : Material.RED_STAINED_GLASS_PANE);
-            case PLAYER_KILL -> material = claimed ? Material.IRON_SWORD : (available ? Material.IRON_SWORD : Material.RED_STAINED_GLASS_PANE);
-            case JOIN -> material = claimed ? Material.PAPER : (available ? Material.PAPER : Material.WHITE_STAINED_GLASS_PANE);
-            case COMMUNITY_PLAYTIME -> material = claimed ? Material.NETHER_STAR : (available ? Material.NETHER_STAR : Material.PURPLE_STAINED_GLASS_PANE);
-            default -> {}
+            case PLAYTIME -> material = available ? Material.CLOCK : Material.GRAY_STAINED_GLASS_PANE;
+            case BLOCK_BREAK -> material = available ? Material.DIAMOND_PICKAXE : Material.COBBLESTONE;
+            case BLOCK_PLACE -> material = available ? Material.BRICK : Material.COBBLESTONE;
+            case MOB_KILL -> material = available ? Material.ZOMBIE_HEAD : Material.RED_STAINED_GLASS_PANE;
+            case PLAYER_KILL -> material = available ? Material.IRON_SWORD : Material.RED_STAINED_GLASS_PANE;
+            case JOIN -> material = available ? Material.PAPER : Material.WHITE_STAINED_GLASS_PANE;
+            case COMMUNITY_PLAYTIME -> material = available ? Material.NETHER_STAR : Material.PURPLE_STAINED_GLASS_PANE;
+            default -> material = Material.GRAY_STAINED_GLASS_PANE;
         }
         
         return new ItemStack(material);
