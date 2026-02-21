@@ -48,6 +48,8 @@ public class PlaytimeTracker extends BukkitRunnable {
                             data.setJoinDays(data.getJoinDays() + 1);
                         }
                         data.setLastJoinTime(now);
+                        
+                        plugin.getMilestoneManager().checkMilestones(player);
                     }
                 }
             }

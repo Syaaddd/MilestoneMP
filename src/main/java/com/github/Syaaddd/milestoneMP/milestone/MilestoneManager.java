@@ -34,7 +34,6 @@ public class MilestoneManager {
             if (hasReached(data, milestone)) {
                 String msg = plugin.getConfigManager().getMsgMilestoneAvailable();
                 player.sendMessage(MessageUtil.color(plugin.getConfigManager().getPrefix() + msg));
-                break;
             }
         }
     }

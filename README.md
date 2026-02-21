@@ -190,6 +190,28 @@ The GUI features:
 
 ---
 
+## Changelog
+
+### Version 1.0.7 (Patch)
+- Fixed: Milestone notification not showing when player completes quest through activities (block break, block place, mob kill, playtime, join)
+- Fixed: Removed break statement to notify all reached milestones (not just the first one)
+
+### Version 1.0.6 (Patch)
+- Fixed: Choices not loaded from config (use getMapList for YAML list format)
+- Fixed: Player data loading to be synchronous
+- Fixed: Milestone claim logic - auto-select first choice when choiceId is null
+- Fixed: Milestone notification spam (now only notify once on join)
+- Removed: Debug logs from production code
+
+### Version 1.0.5
+- Initial release with progression tree system
+- Choice-based rewards system
+- Multiple milestone types support
+- SQLite & MySQL support
+- PlaceholderAPI integration
+
+---
+
 ## Support
 
 - Issues: [GitHub Issues](https://github.com/Syaaddd/MilestoneMP/issues)
@@ -197,4 +219,4 @@ The GUI features:
 ---
 
 **License:** MIT  
-**Version:** 1.0.6
+**Version:** 1.0.7
