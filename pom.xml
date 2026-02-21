@@ -6,7 +6,7 @@
 
   <groupId>com.github.Syaaddd</groupId>
   <artifactId>MilestoneMP</artifactId>
-  <version>1.0.5-SNAPSHOT</version>
+  <version>1.0.7</version>
   <packaging>jar</packaging>
 
   <name>milestonemp</name>

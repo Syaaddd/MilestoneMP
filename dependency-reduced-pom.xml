@@ -4,7 +4,7 @@
   <groupId>com.github.Syaaddd</groupId>
   <artifactId>MilestoneMP</artifactId>
   <name>milestonemp</name>
-  <version>1.0.5-SNAPSHOT</version>
+  <version>1.0.6</version>
   <build>
     <defaultGoal>clean package</defaultGoal>
     <resources>
